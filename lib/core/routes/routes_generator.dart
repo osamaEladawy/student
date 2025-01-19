@@ -8,7 +8,7 @@ import 'package:student/features/auth/screens/login_screen.dart';
 import 'package:student/features/auth/screens/sign_up_screen.dart';
 import 'package:student/features/cart/screens/cart_screen.dart';
 import 'package:student/features/courses/screens/abilities_course_screen.dart';
-import 'package:student/features/dashboaed/screens/dashboard_screen.dart';
+import 'package:student/features/dashboard/screens/dashboard_screen.dart';
 import 'package:student/features/home/screens/home_screen.dart';
 import 'package:student/features/onboard/screens/onboard_screen.dart';
 import 'package:student/features/splash/screen/splash_screen.dart';
