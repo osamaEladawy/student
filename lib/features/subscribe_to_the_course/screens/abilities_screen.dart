@@ -1,24 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:student/core/functions/check_for_current_language.dart';
 import 'package:student/core/functions/translate.dart';
-import 'package:student/features/lecturers/cubit/lecturers_cubit.dart';
+import 'package:student/core/routes/routes.dart';
 import 'package:student/features/lecturers/widgets/custom_search_text_field.dart';
 import 'package:student/features/lecturers/widgets/custom_title_lecturers.dart';
+import 'package:student/features/subscribe_to_the_course/cubit/subscribe_course_cubit.dart';
 import 'package:student/shared/classes/text_style.dart';
+import 'package:student/shared/extentions/navigations.dart';
 import 'package:student/shared/resources/color_resources.dart';
 import 'package:student/shared/resources/icons_resources.dart';
 import 'package:student/shared/widgets/custom_drop_list.dart';
+import 'package:student/shared/widgets/leading_app_bar.dart';
+import 'package:student/shared/widgets/titleAppBar.dart';
 
-class LecturersScreen extends StatelessWidget {
-  const LecturersScreen({super.key});
+class AbilitiesScreen extends StatelessWidget {
+  const AbilitiesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<LecturersCubit, LecturersState>(
+      appBar: AppBar(
+        centerTitle: true,
+        leading: LeadingAppBar(),
+        title: TitleAppBar(title: tr.abilities),
+      ),
+      body: BlocBuilder<SubscribeCourseCubit, SubscribeCourseState>(
           builder: (context, state) {
         return Container(
           margin: EdgeInsets.only(
@@ -33,17 +42,15 @@ class LecturersScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomTitleLecturers(
-                    title: tr.lecturers,
-                  ),
+                  CustomTitleLecturers(title: tr.lecturers),
                   Spacer(),
                   Row(
                     spacing: 16.w,
                     children: [
                       CustomDropList(
-                        value: LecturersCubit.instance.value,
+                        value: SubscribeCourseCubit.instance.value,
                         valueChanged: (value) {
-                          LecturersCubit.instance.fetchLecturers(value);
+                          SubscribeCourseCubit.instance.fetchLecturers(value);
                         },
                         list: [
                           'Card1',
@@ -51,9 +58,9 @@ class LecturersScreen extends StatelessWidget {
                         ],
                       ),
                       CustomDropList(
-                        value: LecturersCubit.instance.value2,
+                        value: SubscribeCourseCubit.instance.value2,
                         valueChanged: (value) {
-                          LecturersCubit.instance.fetchLecturers2(value);
+                          SubscribeCourseCubit.instance.fetchLecturers2(value);
                         },
                         list: [
                           'Card2',
@@ -71,9 +78,8 @@ class LecturersScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
-                        LecturersCubit.instance.selectCard(index);
-                        // context.pushNamed(Routes.detailsForStudent,
-                        //     arguments: LecturersCubit.instance.lecturers[index]);
+                        SubscribeCourseCubit.instance.selectCard(index);
+                        context.pushNamed(Routes.detailsTeacherScreen);
                       },
                       child: Container(
                         width: 342.w,
@@ -85,7 +91,8 @@ class LecturersScreen extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(25.r),
-                          color: LecturersCubit.instance.currentIndex == index
+                          color: SubscribeCourseCubit.instance.currentIndex ==
+                                  index
                               ? ColorResources.primaryColor
                               : ColorResources.whiteColor,
                           border: Border.all(
@@ -96,25 +103,26 @@ class LecturersScreen extends StatelessWidget {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Image.asset(
-                                LecturersCubit.instance.lecturers[index].image),
+                            Image.asset(SubscribeCourseCubit
+                                .instance.lecturers[index].image),
                             SizedBox(width: 16.w),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
-                                  LecturersCubit.instance.lecturers[index].name,
+                                  SubscribeCourseCubit
+                                      .instance.lecturers[index].name,
                                   style: AppTextStyle.textStyle(
                                     isPlusJakartaSans: true,
                                     appFontSize: 20.sp,
                                     appFontHeight: 25.2.sp,
                                     appFontWeight: FontWeight.w600,
-                                    color:
-                                        LecturersCubit.instance.currentIndex ==
-                                                index
-                                            ? ColorResources.whiteColor
-                                            : ColorResources.blackColor,
+                                    color: SubscribeCourseCubit
+                                                .instance.currentIndex ==
+                                            index
+                                        ? ColorResources.whiteColor
+                                        : ColorResources.blackColor,
                                   ),
                                 ),
                                 Row(
@@ -139,7 +147,7 @@ class LecturersScreen extends StatelessWidget {
                                       decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(10.r),
-                                        color: LecturersCubit
+                                        color: SubscribeCourseCubit
                                                     .instance.currentIndex ==
                                                 index
                                             ? ColorResources.whiteColor
@@ -148,12 +156,12 @@ class LecturersScreen extends StatelessWidget {
                                                 .withOpacity(0.10),
                                       ),
                                       child: Text(
-                                        '${LecturersCubit.instance.lecturers[index].numbersOfLectures} ${tr.lectures}',
+                                        '${SubscribeCourseCubit.instance.lecturers[index].numbersOfLectures} ${tr.lectures}',
                                         style: AppTextStyle.textStyle(
                                           appFontSize: 16.sp,
                                           appFontHeight: 20.16.sp,
                                           appFontWeight: FontWeight.w500,
-                                          color: LecturersCubit
+                                          color: SubscribeCourseCubit
                                                       .instance.currentIndex ==
                                                   index
                                               ? ColorResources.whiteColor
@@ -170,7 +178,7 @@ class LecturersScreen extends StatelessWidget {
                                       decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(10.r),
-                                        color: LecturersCubit
+                                        color: SubscribeCourseCubit
                                                     .instance.currentIndex ==
                                                 index
                                             ? ColorResources.whiteColor
@@ -184,7 +192,7 @@ class LecturersScreen extends StatelessWidget {
                                           appFontSize: 16.sp,
                                           appFontHeight: 20.16.sp,
                                           appFontWeight: FontWeight.w500,
-                                          color: LecturersCubit
+                                          color: SubscribeCourseCubit
                                                       .instance.currentIndex ==
                                                   index
                                               ? ColorResources.whiteColor
@@ -202,19 +210,19 @@ class LecturersScreen extends StatelessWidget {
                             isArabic
                                 ? SvgPicture.asset(
                                     IconsResources.arrowLeft,
-                                    color:
-                                        LecturersCubit.instance.currentIndex ==
-                                                index
-                                            ? ColorResources.whiteColor
-                                            : ColorResources.primaryColor,
+                                    color: SubscribeCourseCubit
+                                                .instance.currentIndex ==
+                                            index
+                                        ? ColorResources.whiteColor
+                                        : ColorResources.primaryColor,
                                   )
                                 : SvgPicture.asset(
                                     IconsResources.arrowRight,
-                                    color:
-                                        LecturersCubit.instance.currentIndex ==
-                                                index
-                                            ? ColorResources.whiteColor
-                                            : ColorResources.primaryColor,
+                                    color: SubscribeCourseCubit
+                                                .instance.currentIndex ==
+                                            index
+                                        ? ColorResources.whiteColor
+                                        : ColorResources.primaryColor,
                                   ),
                           ],
                         ),
@@ -222,7 +230,7 @@ class LecturersScreen extends StatelessWidget {
                     );
                   },
                   separatorBuilder: (context, index) => SizedBox(height: 16.h),
-                  itemCount: LecturersCubit.instance.lecturers.length,
+                  itemCount: SubscribeCourseCubit.instance.lecturers.length,
                 ),
               )
             ],
@@ -232,5 +240,3 @@ class LecturersScreen extends StatelessWidget {
     );
   }
 }
-
-

@@ -25,6 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "aMathTeacherWithMoreThanTenYearsOfExperience":
             MessageLookupByLibrary.simpleMessage(
                 "مدرس رياضيات لديه خبرة اكثر من عشر سنوات وقام بتدريس اكثر من 5000 طالب على مدارعشر سنوات لدية خبرة في تدريس القدرات لي اكثر من خمس سنوات"),
+        "abilities": MessageLookupByLibrary.simpleMessage("القدرات"),
         "abilitiesCourse": MessageLookupByLibrary.simpleMessage("كورس القدرات"),
         "aboutTheTeacher": MessageLookupByLibrary.simpleMessage("عن المدرس"),
         "achievement": MessageLookupByLibrary.simpleMessage("التحصيلي"),
